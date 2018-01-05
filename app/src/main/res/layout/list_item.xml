@@ -1,22 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/list"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:id="@+id/list">
+    android:orientation="horizontal"
+    android:minHeight="@dimen/list_item_height">
 
-    <TextView
-        android:id="@+id/default_text_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="lutti" />
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="@dimen/list_item_height"
+        android:layout_height="@dimen/list_item_height"
+        android:src="@mipmap/ic_launcher"
+        android:visibility="gone"
+        />
 
-    <TextView
-        android:id="@+id/translation_text_view"
+    <LinearLayout
+        android:id="@+id/text_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:text="one"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingLeft="16dp">
+
+
+        <TextView
+            android:id="@+id/default_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textStyle="bold"
+            android:textColor="@android:color/white"
+            android:gravity="bottom"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            tools:text="lutti" />
+
+        <TextView
+            android:id="@+id/translation_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:gravity="top"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@android:color/white"
+            tools:text="one" />
+    </LinearLayout>
 
 </LinearLayout>
