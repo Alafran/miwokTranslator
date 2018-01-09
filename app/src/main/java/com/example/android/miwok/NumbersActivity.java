@@ -1,10 +1,14 @@
 package com.example.android.miwok;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -31,6 +35,16 @@ public class NumbersActivity extends AppCompatActivity {
         WordAdapter itemsAdapter = new WordAdapter(this, numbers, R.color.category_numbers);
 
         ListView listView = (ListView) findViewById(R.id.list);
+
+        final MediaPlayer mediaPlayer = MediaPlayer.create(NumbersActivity.this,R.raw.number_one);
+        final Toast toast = Toast.makeText(NumbersActivity.this,"Playing Translation", Toast.LENGTH_SHORT);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                toast.show();
+                mediaPlayer.start();
+            }
+        });
 
         listView.setAdapter(itemsAdapter);
 
