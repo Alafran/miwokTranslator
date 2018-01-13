@@ -17,6 +17,7 @@ public class ColorsActivity extends AppCompatActivity {
 
     private MediaPlayer mMediaPlayer;
     private AudioManager mAudioManager;
+    private AudioManager.OnAudioFocusChangeListener audioFocusChangeListener;
 
 
     @Override
@@ -25,6 +26,28 @@ public class ColorsActivity extends AppCompatActivity {
         setContentView(R.layout.word_list);
 
         mAudioManager = (AudioManager) this.getSystemService(Context.AUDIO_SERVICE);
+
+
+        audioFocusChangeListener = new AudioManager.OnAudioFocusChangeListener() {
+            @Override
+            public void onAudioFocusChange(int focusChange) {
+                switch (focusChange) {
+                    case AudioManager.AUDIOFOCUS_GAIN:
+                        mMediaPlayer.start();
+                        break;
+                    case AudioManager.AUDIOFOCUS_GAIN_TRANSIENT:
+                        mMediaPlayer.start();
+                        break;
+                    case AudioManager.AUDIOFOCUS_LOSS_TRANSIENT:
+                        mMediaPlayer.pause();
+                        break;
+                    case AudioManager.AUDIOFOCUS_LOSS:
+
+                        releaseMediaPlayer();
+                        break;
+                }
+            }
+        };
 
 
         final MediaPlayer.OnCompletionListener mCompletionListener = new MediaPlayer.OnCompletionListener() {
@@ -52,9 +75,16 @@ public class ColorsActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 releaseMediaPlayer();
-                mMediaPlayer = MediaPlayer.create(ColorsActivity.this, colors.get(i).getMp3ResourceID());
-                mMediaPlayer.start();
-                mMediaPlayer.setOnCompletionListener(mCompletionListener);
+
+                int audioFocusRequest = mAudioManager.requestAudioFocus(audioFocusChangeListener, AudioManager.STREAM_MUSIC, AudioManager.AUDIOFOCUS_GAIN_TRANSIENT);
+
+                if(audioFocusRequest == AudioManager.AUDIOFOCUS_REQUEST_GRANTED) {
+                    mMediaPlayer = MediaPlayer.create(ColorsActivity.this, colors.get(i).getMp3ResourceID());
+                    mMediaPlayer.start();
+                    mMediaPlayer.setOnCompletionListener(mCompletionListener);
+                }
+
+
             }
         });
 
@@ -81,6 +111,8 @@ public class ColorsActivity extends AppCompatActivity {
             // setting the media player to null is an easy way to tell that the media player
             // is not configured to play an audio file at the moment.
             mMediaPlayer = null;
+
+            mAudioManager.abandonAudioFocus(audioFocusChangeListener);
         }
     }
 

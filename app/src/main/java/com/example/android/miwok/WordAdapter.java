@@ -42,6 +42,7 @@ public class WordAdapter extends ArrayAdapter<Word> {
         TextView defaultWordTextView = (TextView) convertView.findViewById(R.id.default_text_view);
         TextView translationTextView = (TextView) convertView.findViewById(R.id.translation_text_view);
         ImageView image = (ImageView) convertView.findViewById(R.id.image_view);
+        ImageView playButton = (ImageView) convertView.findViewById(R.id.play_button_image);
         LinearLayout textContainer = (LinearLayout) convertView.findViewById(R.id.text_container);
 
         int color = ContextCompat.getColor(getContext(), backgroundColor);
