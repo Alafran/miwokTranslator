@@ -57,6 +57,7 @@ public class WordAdapter extends ArrayAdapter<Word> {
             image.setVisibility(View.VISIBLE);
         }
 
+        
 
         return convertView;
     }
